@@ -13,7 +13,6 @@ bool isValid(string s)
         char x = s[i];
         if (x == '(' || x == '{' || x == '[')
         {
-            cout << "Push = " << i << x << endl;
             st.push(x);
         }
         else if (st.empty())
