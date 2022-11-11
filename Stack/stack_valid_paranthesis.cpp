@@ -1,61 +1,47 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class ListNode
+bool isValid(string s)
 {
-public:
-    int val;
-    ListNode *next;
-};
-
-ListNode *head = NULL;
-// stack push, pop, top
-ListNode *stack_push(int new_data)
-{
-    ListNode *node = new ListNode();
-    node->val = new_data;
-    node->next = head;
-    head = node;
-    return head;
-}
-int stack_top()
-{
-    return head->val;
-}
-
-ListNode *stack_pop()
-{
-    ListNode *temp = head;
-    head = head->next;
-    return temp;
-}
-
-void print_stack()
-{
-    if (head == NULL)
+    if (s.length() % 2 != 0)
     {
-        printf("Stack is empty");
-        return;
+        return false;
     }
-    ListNode *p = head;
-    while (p->next != NULL)
+    stack<char> st;
+    for (int i = 0; s[i] != '\0'; i++)
     {
-        printf("%d -> ", p->val);
-        p = p->next;
+        char x = s[i];
+        if (x == '(' || x == '{' || x == '[')
+        {
+            cout << "Push = " << i << x << endl;
+            st.push(x);
+        }
+        else if (st.empty())
+        {
+            return false;
+        }
+        else
+        {
+            char y = st.top();
+            if ((x - y) == 1 || (x - y) == 2)
+            {
+                st.pop();
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
-    printf("%d\n", p->val);
+    return st.empty();
 }
 
 int main()
 {
-    ListNode *pop_node = NULL;
-    head = stack_push(10);
-    head = stack_push(20);
-    head = stack_push(30);
-    print_stack();
-    cout << "Top =" << stack_top() << endl;
-    pop_node = stack_pop();
-    cout << "Pop = " << pop_node->val << endl;
-    print_stack();
+
+    bool result = isValid("([}}])");
+    cout << result << endl;
+    // print_stack();
+
     return 0;
 }
